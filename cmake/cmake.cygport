@@ -1,8 +1,8 @@
 inherit emacs qt5
 
 NAME="cmake"
-VERSION=3.19.0-rc3
-RELEASE=0
+VERSION=3.19.0
+RELEASE=1
 CATEGORY="Devel"
 SUMMARY="Cross-platform makefile generation system"
 DESCRIPTION="CMake is used to control the software compilation process using
