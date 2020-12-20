@@ -18,7 +18,7 @@ https://github.com/Kitware/CMake/releases/download/v${VERSION}/cmake-${VERSION}-
 PATCH_URI="
 "
 
-BUILD_REQUIRES="
+BUILD_REQUIRES="\
   libarchive-devel\
   libcurl-devel\
   libexpat-devel\
