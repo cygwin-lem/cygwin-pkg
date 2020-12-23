@@ -19,7 +19,9 @@ PATCH_URI="
 "
 
 BUILD_REQUIRES="\
-  libarchive-devel\
+  libQt5Core-devel\
+  libQt5Gui-devel\
+\
   libcurl-devel\
   libexpat-devel\
   libjsoncpp-devel\
@@ -27,15 +29,16 @@ BUILD_REQUIRES="\
   librhash-devel\
   libuuid-devel\
   libuv-devel\
-  zlib-devel\
-  libQt5Core-devel\
-  libQt5Gui-devel\
-  librhash-devel\
+\
+  libarchive-devel\
   libbz2-devel\
   liblzma-devel\
   libzstd-devel\
-  python38-sphinx\
+  zlib-devel\
+\
   python38-alabaster\
+  python38-sphinx\
+\
   emacs\
 " # This list might be insufficient.
 
