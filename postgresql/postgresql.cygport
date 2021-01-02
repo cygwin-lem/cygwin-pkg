@@ -33,7 +33,8 @@ MAKEOPTS="${MAKEOPTS} -j1"
 PACKAGE_BUGREPORT="cygwin@cygwin.com"
 CYGCONF_ARGS="--enable-nls --with-openssl --with-perl --with-python --with-ldap --with-system-tzdata=/usr/share/zoneinfo"
 
-PYTHON="python3.8"
+USE_PYTHON_VERSION="3.8"
+PYTHON="python${USE_PYTHON_VERSION}"
 
 DEPS_PATH=/usr/sbin
 
@@ -51,9 +52,9 @@ postgresql_client_REQUIRES="crypt openssl"
 postgresql_contrib_SUMMARY="additional facilities for PostgreSQL"
 postgresql_doc_SUMMARY="documentation for PostgreSQL"
 postgresql_plperl_SUMMARY="PL/Perl procedural language for PostgreSQL"
-postgresql_plperl_REQUIRES="postgresql perl"
+#postgresql_plperl_REQUIRES="postgresql perl"
 postgresql_plpython_SUMMARY="PL/Python procedural language for PostgreSQL"
-postgresql_plpython_REQUIRES="postgresql python"
+#postgresql_plpython_REQUIRES="postgresql python${USE_PYTHON_VERSION//\./}"
 libpq5_SUMMARY="PostgreSQL C client library"
 libpq5_REQUIRES="crypt openssl"
 libpq5_CATEGORY="Database Libs"
@@ -230,27 +231,35 @@ usr/lib/pkgconfig/libecpg_compat.pc \
 usr/lib/pkgconfig/libpgtypes.pc" 
 
 src_compile() {
+(
+  export CYGWIN="ntsec binmode server"
   export PYTHON
   export LDFLAGS="-Wl,-no-undefined -Wl,-R/usr/lib"
   cd ${B}
   cygconf
   cygmake
   cd contrib
-  cygmake 
+  cygmake
+)
 }
 
 src_test() {
+(
+  export CYGWIN="ntsec binmode server"
+  #for EACH_PATH in ${DEPS_PATH//:/ }; do
+  #  PATH="${D}${EACH_PATH}:${PATH}"
+  #done
+  export PATH
   cd ${B}
-  CYGWIN="ntsec binmode server" \
-  PATH="${D}/usr/sbin:${PATH}" \
-  make -j1 -i  MAX_CONNECTIONS=10 check  
+  make -j1 -i  MAX_CONNECTIONS=10 check
   cd contrib
-  CYGWIN="ntsec binmode server" \
-  PATH="${D}/usr/sbin:${PATH}" \
-  make -j1 -i  MAX_CONNECTIONS=10 check  
+  make -j1 -i  MAX_CONNECTIONS=10 check
+)
 }
 
 src_install() {
+(
+  export CYGWIN="ntsec binmode server"
   cd ${B}
   # defining MAKE_DLL to install also libpostgres.a
   # if somemone want to link on internals 
@@ -278,4 +287,5 @@ src_install() {
   cp ${S}/doc/src/sgml/man7/*.7  ${D}/usr/share/man/man7
 
   make -j1 -C contrib install DESTDIR=${D} bindir=/usr/lib/postgresql/bin/ docdir=/usr/share/doc/${PN}/contrib
+)
 }

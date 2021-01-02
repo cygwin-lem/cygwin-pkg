@@ -1,0 +1,22 @@
+--- origsrc/postgresql-12.5/src/pl/plpython/plpy_plpymodule.c	2020-11-10 07:26:33.000000000 +0900
++++ src/postgresql-12.5/src/pl/plpython/plpy_plpymodule.c	2021-01-02 10:47:46.000784800 +0900
+@@ -132,7 +132,7 @@ static PyModuleDef PLy_exc_module = {
+  * Must have external linkage, because PyMODINIT_FUNC does dllexport on
+  * Windows-like platforms.
+  */
+-PyMODINIT_FUNC
++PyObject*
+ PyInit_plpy(void)
+ {
+ 	PyObject   *m;
+--- origsrc/postgresql-12.5/src/pl/plpython/plpy_plpymodule.h	2020-11-10 07:26:33.000000000 +0900
++++ src/postgresql-12.5/src/pl/plpython/plpy_plpymodule.h	2021-01-02 10:43:23.138552700 +0900
+@@ -12,7 +12,7 @@ extern HTAB *PLy_spi_exceptions;
+ 
+ 
+ #if PY_MAJOR_VERSION >= 3
+-PyMODINIT_FUNC PyInit_plpy(void);
++extern PyMODINIT_FUNC PyInit_plpy(void);
+ #endif
+ extern void PLy_init_plpy(void);
+ 
